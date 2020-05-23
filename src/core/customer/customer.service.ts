@@ -1,26 +1,29 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Customer } from './customer.entity';
+import { DTOCustomer } from './customer.dto';
 
 @Injectable()
 export class CustomerService {
     constructor(@Inject('CUSTOMER_REPOSITORY') private customerRepository: Repository<Customer>) { }
 
-    async customerList(): Promise<Customer[]> {
-        return this.customerRepository.find();
+    async customerList(): Promise<DTOCustomer[]> {
+        const foundCustomers = await this.customerRepository.find();
+        return foundCustomers.map((customer) => new DTOCustomer(customer));
     }
 
-    async create(name: string): Promise<Customer> {
-        const baseId = Date.now().toString();
-        const id = Number.parseInt(baseId.slice(baseId.length - 4, baseId.length));
-
+    async create(name: string): Promise<DTOCustomer> {
+        const existingCustomer = await this.customerRepository.findOne({ name });
+        if (existingCustomer) {
+            throw new BadRequestException('A customer with this name already exists!');
+        }
+        
         const newCustomer = this.customerRepository.create({
-            id,
             name
         });
 
-        const [createdCustomer] = await Promise.all([this.customerRepository.save(newCustomer), this.customerRepository.query(`create database ${process.env.DB_MAIN_DATABASE}_${name}`)]);
+        const [createdCustomer] = await Promise.all([this.customerRepository.save(newCustomer), this.customerRepository.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_MAIN_DATABASE}_${name}`)]);
 
-        return createdCustomer;
+        return new DTOCustomer(createdCustomer);
     }
 }

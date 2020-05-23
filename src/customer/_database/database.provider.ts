@@ -3,6 +3,6 @@ import { getManager } from 'typeorm';
 
 export const CustomerDatabaseProvider = {
     provide: 'CUSTOMER_DATABASE_CONNECTION',
-    useFactory: async (request: Request) => getManager(request.headers['x-client']),
+    useFactory: async (request: Request) => getManager(request.headers['customer-id']),
     inject: [REQUEST]
 }

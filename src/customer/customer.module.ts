@@ -1,6 +1,6 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigurationModule } from './configuration/configuration.module';
-import { DatabaseMiddleware } from './database/database.middleware';
+import { DatabaseMiddleware } from './_database/database.middleware';
 
 @Module({
   imports: [ConfigurationModule],
@@ -9,6 +9,6 @@ import { DatabaseMiddleware } from './database/database.middleware';
 })
 export class CustomerModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(DatabaseMiddleware).forRoutes('*');
+    consumer.apply(DatabaseMiddleware).forRoutes('/customer/*');
   }
 }

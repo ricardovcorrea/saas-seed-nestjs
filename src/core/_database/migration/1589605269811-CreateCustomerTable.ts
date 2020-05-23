@@ -8,12 +8,20 @@ export class CreateCustomerTable1589605269811 implements MigrationInterface {
             columns: [
                 {
                     name: "id",
-                    type: "int",
-                    isPrimary: true
+                    type: "varchar",
+                    isPrimary: true,
+                    isGenerated: true,
+                    generationStrategy: 'uuid'
                 },
                 {
                     name: "name",
                     type: "varchar"
+                },
+                {
+                    name: "secretKey",
+                    type: "varchar",
+                    isGenerated: true,
+                    generationStrategy: 'uuid'
                 }
             ]
         }), true);

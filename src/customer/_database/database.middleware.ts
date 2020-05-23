@@ -1,11 +1,18 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, NotFoundException, BadRequestException } from '@nestjs/common';
 import { getConnection, createConnection, Connection } from "typeorm";
 
 @Injectable()
 export class DatabaseMiddleware implements NestMiddleware {
 
     async use(req: any, res: any, next: () => void) {
-        const databaseName = req.headers['x-client'];
+        const customerId = req.headers['customer-id'];
+        const secretKey = req.headers['secret-key'];
+
+        if (!customerId || !secretKey) {
+            throw new BadRequestException('customer-id and secret-key headers are required!');
+        }
+
+        const databaseName = "teste";
 
         let connection: Connection;
 
@@ -29,7 +36,7 @@ export class DatabaseMiddleware implements NestMiddleware {
             });
         }
 
-        if (!connection.connect) {
+        if (!connection.isConnected) {
             await connection.connect();
         }
 
