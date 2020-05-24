@@ -2,14 +2,12 @@ import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { DTOTheme } from './theme.dto';
 import { Theme } from './theme.entity';
+import { CrudService } from '../../shared/crud/crud.service';
 
 @Injectable()
-export class ThemeService {
-    constructor(@Inject('THEME_REPOSITORY') private readonly themeRepository: Repository<Theme>) { }
-
-    async getAll(): Promise<DTOTheme[]> {
-        const themes = await this.themeRepository.find();
-        return themes.map(theme => new DTOTheme(theme));
+export class ThemeService extends CrudService<DTOTheme> {
+    constructor(@Inject('THEME_REPOSITORY') private readonly themeRepository: Repository<Theme>) {
+        super(themeRepository, DTOTheme);
     }
 
     async getActiveTheme(): Promise<DTOTheme> {

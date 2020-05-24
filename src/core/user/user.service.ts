@@ -10,10 +10,10 @@ export class UserService {
 
     async validateUserPassword(email: string, password: string): Promise<DTOUser> {
         const user = await this.userRepository.findOne({ email: email });
-        if (!user) throw new UnauthorizedException();
+        if (!user) throw new UnauthorizedException('Invalid user or password');
 
         const passwordIsValid = await bcrypt.compare(password, user.password);
-        if (!passwordIsValid) throw new UnauthorizedException();
+        if (!passwordIsValid) throw new UnauthorizedException('Invalid user or password');
 
         return new DTOUser(user);
     }

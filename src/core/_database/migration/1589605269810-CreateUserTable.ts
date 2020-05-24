@@ -24,7 +24,7 @@ export class CreateUserTable1589605269811 implements MigrationInterface {
             ]
         }), true);
 
-        await queryRunner.manager.createQueryBuilder().insert().into('user').values({ id: "1", email: "admin@saas.com", password: "$2b$12$62r9abT1dOVhv96nLcnAOOn6jPxlTAgoNf0.gdqz86ZLLTqghkTji" }).execute();
+        await queryRunner.manager.createQueryBuilder().insert().into('user').values({ id: "a624b05d-a7fb-5842-b12b-8fb5b9f06963", email: "admin@saas.com", password: "$2b$12$62r9abT1dOVhv96nLcnAOOn6jPxlTAgoNf0.gdqz86ZLLTqghkTji" }).execute();
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {

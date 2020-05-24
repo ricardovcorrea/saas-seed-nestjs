@@ -8,8 +8,10 @@ export class CreateThemeTable1589605269811 implements MigrationInterface {
             columns: [
                 {
                     name: "id",
-                    type: "int",
-                    isPrimary: true
+                    type: "varchar",
+                    isPrimary: true,
+                    isGenerated: true,
+                    generationStrategy: 'uuid'
                 },
                 {
                     name: "primary",
@@ -21,12 +23,13 @@ export class CreateThemeTable1589605269811 implements MigrationInterface {
                 },
                 {
                     name: "isActive",
-                    type: "tinyint(1)"
+                    type: "tinyint(1)",
+                    default: false
                 }
             ]
         }), true);
 
-        await queryRunner.manager.createQueryBuilder().insert().into('theme').values({ id: "1", primary: "#f3f3f3", secondary: "#f1f1f1", isActive: true }).execute();
+        await queryRunner.manager.createQueryBuilder().insert().into('theme').values({ id: "a624b05d-a7fb-480d-b12b-8fb5b9f08569", primary: "#f3f3f3", secondary: "#f1f1f1", isActive: true }).execute();
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {

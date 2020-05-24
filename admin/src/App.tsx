@@ -11,13 +11,14 @@ import Layout from './General/Layout';
 import Theme from './General/Theme';
 
 import Dashboard from './Pages/Dashboard';
-import { QuestionList, QuestionCreate, QuestionEdit } from './Resources/Question';
+import { CustomerList } from './Resources/Customer';
 
 const App = () => (
 
-  <Admin layout={Layout} dataProvider={Provider()} authProvider={AuthProvider()} dashboard={Dashboard} theme={Theme} customReducers={{ statistics: StatisticsReducer }}>
-    <SocketProvider />
-    <Resource name="questions" options={{ label: 'Questions' }} list={QuestionList} create={QuestionCreate} edit={QuestionEdit} />
+  <Admin layout={Layout} dataProvider={Provider()} authProvider={AuthProvider()} theme={Theme} customReducers={{ statistics: StatisticsReducer }}>
+    {/* <SocketProvider /> */}
+    <Resource name="customer" options={{ label: 'Customers' }} list={CustomerList} />
+    {/* <Resource name="customer" options={{ label: 'Customers' }} list={QuestionList} create={QuestionCreate} edit={QuestionEdit} /> */}
   </Admin>
 
 );

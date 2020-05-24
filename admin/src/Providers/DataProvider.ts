@@ -4,11 +4,11 @@ import { baseUrl } from '../General/Constants';
 
 export default () => {
     return {
-        getList: (resource:any, params:any) => {
+        getList: (resource: any, params: any) => {
             const { page, perPage } = params.pagination;
             const { field, order } = params.sort;
 
-            const url = `${baseUrl}/admin/${resource}?page=${page}&perPage=${perPage}&sortBy=${field}&sort=${order}`;
+            const url = `core/${resource}/list?page=${page}&perPage=${perPage}&sortBy=${field}&sort=${order}`;
             const token = localStorage.getItem('token');
             const auth = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -18,10 +18,10 @@ export default () => {
             }));
         },
 
-        getOne: (resource:any, params:any) => {
+        getOne: (resource: any, params: any) => {
             const { id } = params;
 
-            const url = `${baseUrl}/admin/${resource}/${id}`;
+            const url = `core/${resource}/single?customerId=${id}`;
             const token = localStorage.getItem('token');
             const auth = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -30,10 +30,10 @@ export default () => {
             }));
         },
 
-        getMany: (resource:any, params:any) => {
+        getMany: (resource: any, params: any) => {
             const { ids } = params;
 
-            const url = `${baseUrl}/admin/${resource}/list?ids=${ids.join(',')}`;
+            const url = `core/${resource}/list?ids=${ids.join(',')}`;
             const token = localStorage.getItem('token');
             const auth = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -42,24 +42,24 @@ export default () => {
             }));
         },
 
-        getManyReference: (resource:any, params:any) => Promise.resolve(),
+        getManyReference: (resource: any, params: any) => Promise.resolve(),
 
-        update: (resource:any, params:any) => Promise.resolve(),
+        update: (resource: any, params: any) => Promise.resolve(),
 
-        updateMany: (resource:any, params:any) => Promise.resolve(),
+        updateMany: (resource: any, params: any) => Promise.resolve(),
 
-        create: (resource:any, params:any) => {
-            const url = `${baseUrl}/admin/${resource}`;
+        create: (resource: any, params: any) => {
+            const url = `core/${resource}`;
             const token = localStorage.getItem('token');
             const auth = { headers: { Authorization: `Bearer ${token}` } };
 
             return axios.post(url, params.data, auth).then(({ data }) => ({ data }));
         },
 
-        delete: (resource:any, params:any) => {
+        delete: (resource: any, params: any) => {
             const { id } = params;
 
-            const url = `${baseUrl}/admin/${resource}/${id}`;
+            const url = `core/${resource}/${id}`;
             const token = localStorage.getItem('token');
             const auth = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -68,6 +68,6 @@ export default () => {
             }));
         },
 
-        deleteMany: (resource:any, params:any) => Promise.resolve(),
+        deleteMany: (resource: any, params: any) => Promise.resolve(),
     }
 };

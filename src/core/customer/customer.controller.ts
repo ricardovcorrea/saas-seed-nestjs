@@ -1,32 +1,23 @@
-import { Controller, Get, Post, Body, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CrudController } from '../../shared/crud/crud.controller';
+import { DTOCustomer } from './customer.dto';
 
 @Controller('core/customer')
-export class CustomerController {
-    constructor(private readonly customerService: CustomerService) { }
-
-    @Get()
-    @UseGuards(JwtAuthGuard)
-    async getAll() {
-        return this.customerService.customerList();
-    }
-
-    @Post()
-    @UseGuards(JwtAuthGuard)
-    async create(@Body('name') name) {
-        return this.customerService.create(name);
+@UseGuards(JwtAuthGuard)
+export class CustomerController extends CrudController<DTOCustomer> {
+    constructor(private readonly customerService: CustomerService) {
+        super(customerService);
     }
 
     @Get('secretKey')
-    @UseGuards(JwtAuthGuard)
     async getSecretKey(@Query('customerId') customerId: string) {
         const secretKey = await this.customerService.getSecretKey(customerId);
         return { secretKey };
     }
 
     @Get('secretKey/reset')
-    @UseGuards(JwtAuthGuard)
     async resetSecretKey(@Query('customerId') customerId: string) {
         const secretKey = await this.customerService.resetSecretKey(customerId);
         return { secretKey };
