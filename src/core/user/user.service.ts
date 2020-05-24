@@ -4,12 +4,11 @@ import { User } from './user.entity';
 import { DTOUser } from './user.dto';
 import * as bcrypt from 'bcrypt';
 
-
 @Injectable()
 export class UserService {
     constructor(@Inject('USER_REPOSITORY') private userRepository: Repository<User>) { }
 
-    async validateUserPassword(email: string, password: string) {
+    async validateUserPassword(email: string, password: string): Promise<DTOUser> {
         const user = await this.userRepository.findOne({ email: email });
         if (!user) throw new UnauthorizedException();
 

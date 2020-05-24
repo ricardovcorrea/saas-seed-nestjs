@@ -28,6 +28,7 @@
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/serve-static": "^2.1.1",
     "@sentry/node": "^5.15.5",
     "@types/bcrypt": "^3.0.0",
     "@types/dotenv": "^8.2.0",

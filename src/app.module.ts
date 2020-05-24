@@ -7,10 +7,21 @@ import { CoreModule } from './core/core.module';
 import { RavenModule, RavenInterceptor } from 'nest-raven';
 import { CoreDatabaseProvider } from './core/_database/database.provider';
 import { CustomerProvider } from './core/customer/customer.provider';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Global()
 @Module({
-  imports: [ConfigModule, RavenModule, CoreModule, CustomerModule],
+  imports: [
+    ConfigModule,
+    RavenModule,
+    CoreModule,
+    CustomerModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'admin/build'),
+      exclude: ['/core*', '/customer*'],
+    })
+  ],
   exports: [CoreDatabaseProvider, CustomerProvider],
   providers: [
     {
