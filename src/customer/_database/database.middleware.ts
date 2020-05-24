@@ -25,7 +25,9 @@ export class DatabaseMiddleware implements NestMiddleware {
             throw new UnauthorizedException('Invalid secret key');
         }
 
-        req.customer = customer;
+        const { secretKey: clientSecret, ...cleanCustomer } = customer;
+
+        req.customer = cleanCustomer;
 
         let connection: Connection;
 

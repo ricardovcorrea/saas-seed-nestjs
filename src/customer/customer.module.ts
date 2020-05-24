@@ -1,9 +1,9 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { ConfigurationModule } from './configuration/configuration.module';
 import { DatabaseMiddleware } from './_database/database.middleware';
+import { ThemeModule } from './theme/theme.module';
 
 @Module({
-  imports: [ConfigurationModule],
+  imports: [ThemeModule],
   providers: [],
   controllers: []
 })

@@ -1,7 +1,7 @@
 import { User } from "./user.entity";
 
 export class DTOUser {
-    id: number;
+    id: string;
     email: string;
 
     constructor(model: User) {

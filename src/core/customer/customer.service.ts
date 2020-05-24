@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Customer } from './customer.entity';
 import { DTOCustomer } from './customer.dto';
@@ -29,10 +29,31 @@ export class CustomerService {
             secretKey
         });
 
-        const databaseName = `${process.env.DB_MAIN_DATABASE}_${slug}`;
-        const [createdCustomer] = await Promise.all([this.customerRepository.save(newCustomer), this.customerRepository.query(`CREATE DATABASE IF NOT EXISTS ${databaseName}`)]);
+        const [createdCustomer] = await Promise.all([this.customerRepository.save(newCustomer), this.customerRepository.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_MAIN_DATABASE}_${slug}`)]);
 
         return new DTOCustomer(createdCustomer);
+    }
+
+    async getSecretKey(customerId: string): Promise<string> {
+        const customer = await this.customerRepository.findOne({ id: customerId });
+        if (!customer) {
+            throw new NotFoundException('Customer not found!');
+        }
+
+        return customer.secretKey;
+    }
+
+    async resetSecretKey(customerId: string): Promise<string> {
+        const customer = await this.customerRepository.findOne({ id: customerId });
+        if (!customer) {
+            throw new NotFoundException('Customer not found!');
+        }
+
+        customer.secretKey = await this.generateSecretKey();
+
+        await this.customerRepository.save(customer);
+
+        return customer.secretKey;
     }
 
     async generateSecretKey(): Promise<string> {

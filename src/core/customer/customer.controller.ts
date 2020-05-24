@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Query } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -8,7 +8,7 @@ export class CustomerController {
 
     @Get()
     @UseGuards(JwtAuthGuard)
-    async findAll() {
+    async getAll() {
         return this.customerService.customerList();
     }
 
@@ -17,4 +17,19 @@ export class CustomerController {
     async create(@Body('name') name) {
         return this.customerService.create(name);
     }
+
+    @Get('secretKey')
+    @UseGuards(JwtAuthGuard)
+    async getSecretKey(@Query('customerId') customerId: string) {
+        const secretKey = await this.customerService.getSecretKey(customerId);
+        return { secretKey };
+    }
+
+    @Get('secretKey/reset')
+    @UseGuards(JwtAuthGuard)
+    async resetSecretKey(@Query('customerId') customerId: string) {
+        const secretKey = await this.customerService.resetSecretKey(customerId);
+        return { secretKey };
+    }
+
 }

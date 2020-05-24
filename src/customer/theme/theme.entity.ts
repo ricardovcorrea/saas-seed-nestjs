@@ -1,13 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class Theme {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
-    email: string;
+    primary: string;
 
     @Column()
-    password: string;
+    secondary: string;
+
+    @Column()
+    isActive: boolean;
 }
