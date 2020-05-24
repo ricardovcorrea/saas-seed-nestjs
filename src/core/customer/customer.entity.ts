@@ -8,6 +8,9 @@ export class Customer {
     @Column()
     name: string;
 
-    @PrimaryGeneratedColumn('uuid')
+    @Column()
+    slug: string;
+
+    @Column()
     secretKey: string;
 }

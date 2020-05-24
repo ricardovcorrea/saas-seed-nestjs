@@ -18,10 +18,12 @@ export class CreateCustomerTable1589605269811 implements MigrationInterface {
                     type: "varchar"
                 },
                 {
+                    name: "slug",
+                    type: "varchar"
+                },
+                {
                     name: "secretKey",
-                    type: "varchar",
-                    isGenerated: true,
-                    generationStrategy: 'uuid'
+                    type: "varchar"
                 }
             ]
         }), true);
